@@ -18,76 +18,12 @@
 
 <body class="bg-slate-100 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 antialiased min-h-screen transition-colors duration-200">
 
-    <!-- Top Navigation Bar -->
-    <header class="w-full bg-white dark:bg-slate-800 border-b border-slate-200/80 dark:border-slate-700/80 px-3 md:px-5 py-2.5 sticky top-0 z-30 shadow-sm transition-colors duration-200">
-        <div class="max-w-[1600px] mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-3 md:gap-4">
-                <button type="button" class="text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-                <a href="#" class="flex items-center gap-2">
-                    <div class="font-extrabold text-2xl md:text-3xl tracking-wider text-teal-500 dark:text-teal-400">SU</div>
-                    <span class="text-sm md:text-base font-bold text-slate-600 dark:text-slate-300 hidden sm:inline-block border-l border-slate-200 dark:border-slate-700 pl-2">Synag Ulgamy</span>
-                </a>
-            </div>
-
-            <div class="flex items-center gap-3">
-                <button type="button" class="relative p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
-                    <svg class="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                    </svg>
-                    <span class="absolute top-1.5 right-1.5 bg-rose-500 text-white text-[11px] font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span>
-                </button>
-            </div>
-        </div>
-    </header>
+    @include('partials.nav')
 
     <!-- Main Outer Container -->
     <div class="max-w-[1600px] mx-auto flex p-2 sm:p-3 md:p-4 gap-3 md:gap-4">
 
-        <!-- Left Sidebar Island -->
-        <aside class="hidden md:flex flex-col justify-between w-16 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200/60 dark:border-slate-700/60 py-5 items-center shrink-0 min-h-[calc(100vh-5rem)] sticky top-16 transition-colors duration-200">
-            <div class="flex flex-col items-center gap-6 w-full">
-                <!-- User Profile Avatar -->
-                <a href="profile.html" class="w-8 h-8 rounded-full border-2 border-teal-400 flex items-center justify-center text-teal-500 hover:opacity-80 transition-opacity">
-                    <span class="w-2.5 h-2.5 rounded-full bg-teal-400"></span>
-                </a>
-
-                <nav class="flex flex-col gap-5 items-center w-full">
-                    <a href="dashboard.html" class="text-teal-500 dark:text-teal-400 p-2 rounded-xl hover:bg-teal-50 dark:hover:bg-teal-950/30 transition-colors" title="Dashboard">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                        </svg>
-                    </a>
-                    <a href="tests.html" class="text-slate-700 dark:text-slate-300 hover:text-teal-500 dark:hover:text-teal-400 p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors" title="Tests">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                        </svg>
-                    </a>
-                    <a href="online_test.html" class="text-slate-700 dark:text-slate-300 hover:text-teal-500 dark:hover:text-teal-400 p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors" title="Online Test">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                        </svg>
-                    </a>
-                    <a href="settings.html" class="text-slate-700 dark:text-slate-300 hover:text-teal-500 dark:hover:text-teal-400 p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors" title="Settings">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </a>
-                </nav>
-            </div>
-
-            <div>
-                <a href="../../signout.html" class="text-slate-700 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors" title="Sign Out">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
-                </a>
-            </div>
-        </aside>
+        @include('partials.aside')
 
         <!-- Main Content Area -->
         <main class="flex-1 w-full space-y-4 md:space-y-5">
@@ -273,114 +209,6 @@
             </div>
         </main>
     </div>
-
-    <script>
-        let timer;
-        let QUIZ_ITEM_COUNTER = 0;
-        let quizItemPresenter = document.getElementById('quiz-item-presenter');
-        let quizTimePresenter = document.getElementById('quiz-time-presenter');
-
-        let upcomingQuizes = [];
-        let last10QuizTitles = ["Samsyk", "Samsyk"];
-        let last10QuizGrades = [60, 33];
-
-        function initUpcomingQuizes() {
-            if (upcomingQuizes.length > 0) {
-                quizItemPresenter.innerHTML = "1/" + upcomingQuizes.length + " &nbsp;&nbsp;&nbsp;&nbsp;" + upcomingQuizes[0]['title'];
-                quizTimePresenter.innerHTML = "Ýüklenýär...";
-                countDownUpcomingQuizes();
-            } else {
-                quizItemPresenter.innerHTML = "Golaýda test ýok";
-                quizTimePresenter.innerHTML = " - ";
-            }
-        }
-
-        function arrowLeft() {
-            if (upcomingQuizes.length === 0) return;
-            QUIZ_ITEM_COUNTER = (QUIZ_ITEM_COUNTER === 0) ? upcomingQuizes.length - 1 : QUIZ_ITEM_COUNTER - 1;
-            updateQuizPresenter();
-        }
-
-        function arrowRight() {
-            if (upcomingQuizes.length === 0) return;
-            QUIZ_ITEM_COUNTER = (QUIZ_ITEM_COUNTER === upcomingQuizes.length - 1) ? 0 : QUIZ_ITEM_COUNTER + 1;
-            updateQuizPresenter();
-        }
-
-        function updateQuizPresenter() {
-            quizItemPresenter.innerHTML = (QUIZ_ITEM_COUNTER + 1) + "/" + upcomingQuizes.length + " &nbsp;&nbsp;&nbsp;&nbsp;" + upcomingQuizes[QUIZ_ITEM_COUNTER]['title'];
-            countDownUpcomingQuizes();
-        }
-
-        function countDownUpcomingQuizes() {
-            clearInterval(timer);
-            timer = setInterval(intervalsJob, 1000);
-        }
-
-        function intervalsJob() {
-            if (!upcomingQuizes[QUIZ_ITEM_COUNTER]) return;
-
-            let startTime = new Date(upcomingQuizes[QUIZ_ITEM_COUNTER]['start_time']).getTime();
-            let rightNow = new Date().getTime();
-            let distance = startTime - rightNow;
-
-            if (distance < 0) {
-                clearInterval(timer);
-                quizTimePresenter.innerHTML = "GÖÇÜRILDI";
-                return;
-            }
-
-            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            quizTimePresenter.innerHTML = days + "g " + hours.toString().padStart(2, "0") + ":" + minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0");
-        }
-
-        function createProgressChart(xValues, yValues) {
-            let ctx = document.getElementById("chart-self-progress").getContext("2d");
-
-            // Check current system color scheme for Chart ticks and grid colors
-            let isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-            let labelColor = isDarkMode ? '#94a3b8' : '#64748b';
-            let gridColor = isDarkMode ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.05)';
-
-            new Chart(ctx, {
-                type: "line",
-                data: {
-                    labels: xValues,
-                    datasets: [{
-                        fill: false,
-                        lineTension: 0.3,
-                        backgroundColor: "#2dd4bf",
-                        borderColor: "#2dd4bf",
-                        data: yValues
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: { display: false },
-                    scales: {
-                        xAxes: [{
-                            ticks: { fontColor: labelColor },
-                            gridLines: { color: gridColor }
-                        }],
-                        yAxes: [{
-                            ticks: { min: 0, max: 100, fontColor: labelColor },
-                            gridLines: { color: gridColor }
-                        }]
-                    }
-                }
-            });
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            initUpcomingQuizes();
-            createProgressChart(last10QuizTitles, last10QuizGrades);
-        });
-    </script>
 </body>
 
 </html>
