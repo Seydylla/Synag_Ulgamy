@@ -13,3 +13,7 @@ Route::get('/student/dashboard', function () {
 Route::get('/student/online-test', function () {
     return view('student.online-test');
 });
+
+Route::get('/student/tests', function () {
+    return view('student.tests');
+});
