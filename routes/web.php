@@ -17,3 +17,7 @@ Route::get('/student/online-test', function () {
 Route::get('/student/tests', function () {
     return view('student.tests');
 });
+
+Route::get('/student/settings', function () {
+    return view('student.settings');
+});
