@@ -25,3 +25,7 @@ Route::get('/student/settings', function () {
 Route::get('/teacher/dashboard', function () {
     return view('teacher.dashboard');
 });
+
+Route::get('/teacher/tests', function () {
+    return view('teacher.tests');
+});
