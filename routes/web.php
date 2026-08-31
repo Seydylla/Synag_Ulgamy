@@ -29,3 +29,7 @@ Route::get('/teacher/dashboard', function () {
 Route::get('/teacher/tests', function () {
     return view('teacher.tests');
 });
+
+Route::get('/teacher/online-test', function () {
+    return view('teacher.online-test');
+});
