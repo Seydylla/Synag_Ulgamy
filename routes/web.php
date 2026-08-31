@@ -21,3 +21,7 @@ Route::get('/student/tests', function () {
 Route::get('/student/settings', function () {
     return view('student.settings');
 });
+
+Route::get('/teacher/dashboard', function () {
+    return view('teacher.dashboard');
+});
