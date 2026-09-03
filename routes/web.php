@@ -27,7 +27,7 @@ Route::get('/teacher/dashboard', function () {
 });
 
 Route::get('/teacher/tests', function () {
-    return view('teacher.tests');
+    return view('teacher.quiz.tests');
 });
 
 Route::get('/teacher/online-test', function () {
