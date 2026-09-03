@@ -33,3 +33,7 @@ Route::get('/teacher/tests', function () {
 Route::get('/teacher/online-test', function () {
     return view('teacher.online-test');
 });
+
+Route::get('/teacher/settings', function () {
+    return view('teacher.settings');
+});
