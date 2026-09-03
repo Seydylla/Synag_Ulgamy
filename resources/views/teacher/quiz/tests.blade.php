@@ -27,7 +27,7 @@
 
             <!-- Top Action Bar -->
             <div class="flex justify-end w-full">
-                <a href="add_test.html" class="px-5 py-2 border border-teal-500 text-teal-600 dark:text-teal-400 hover:bg-teal-500 hover:text-white rounded uppercase text-sm font-semibold transition-colors duration-200 tracking-wide">
+                <a href="/teacher/add_quiz" class="px-5 py-2 border border-teal-500 text-teal-600 dark:text-teal-400 hover:bg-teal-500 hover:text-white rounded uppercase text-sm font-semibold transition-colors duration-200 tracking-wide">
                     Synag goş
                 </a>
             </div>

@@ -2,38 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('entrance');
-});
+Route::view('/', 'entrance');
 
-Route::get('/student/dashboard', function () {
-    return view('student.dashboard');
-});
+Route::view('/student/dashboard', 'student.dashboard');
+Route::view('/student/online-test', 'student.online-test');
+Route::view('/student/tests', 'student.tests');
+Route::view('/student/settings', 'student.settings');
 
-Route::get('/student/online-test', function () {
-    return view('student.online-test');
-});
-
-Route::get('/student/tests', function () {
-    return view('student.tests');
-});
-
-Route::get('/student/settings', function () {
-    return view('student.settings');
-});
-
-Route::get('/teacher/dashboard', function () {
-    return view('teacher.dashboard');
-});
-
-Route::get('/teacher/tests', function () {
-    return view('teacher.quiz.tests');
-});
-
-Route::get('/teacher/online-test', function () {
-    return view('teacher.online-test');
-});
-
-Route::get('/teacher/settings', function () {
-    return view('teacher.settings');
-});
+Route::view('/teacher/dashboard', 'teacher.dashboard');
+Route::view('/teacher/tests', 'teacher.quiz.tests');
+Route::view('/teacher/online-test', 'teacher.online-test');
+Route::view('/teacher/settings', 'teacher.settings');
+Route::view('/teacher/add_quiz', 'teacher.quiz.add_quiz');
