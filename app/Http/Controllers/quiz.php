@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\lessons;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 
 class quiz extends Controller
 {
@@ -27,14 +27,11 @@ class quiz extends Controller
     }
 
     public function create() {
-
         $lessons = lessons::all();
-
         return view('teacher.quiz.create', compact('lessons'));
     }
 
     public function store(Request $request) {
-        // Validate required fields
         $request->validate([
             'lesson' => 'required',
             'title' => 'required|string|max:255',
@@ -45,7 +42,6 @@ class quiz extends Controller
         DB::transaction(function () use ($request) {
             $teacherUserId = Auth::id() ?? 1;
 
-            // Process Start & End Dates
             if ($request->has('test-start-time') && $request->input('test-start-time') === 'start-time-setted') {
                 $startTime = $request->input('start-date') . ' ' . $request->input('start-time') . ':00';
             } else {
@@ -58,12 +54,10 @@ class quiz extends Controller
                 $endTime = '2200-01-01 00:00:00';
             }
 
-            // Process Duration
             $duration = ($request->has('test-duration-switch') && $request->input('test-duration-switch') === 'test-duration-setted')
                 ? ((int) $request->input('duration-time') * 60)
                 : (999 * 60);
 
-            // Insert into su_quizes
             $quizId = DB::table('su_quizes')->insertGetId([
                 'title'           => $request->input('title'),
                 'description'     => '',
@@ -76,7 +70,6 @@ class quiz extends Controller
                 'updated_at'      => now(),
             ]);
 
-            // Insert into su_quiz_settings
             DB::table('su_quiz_settings')->insert([
                 'quiz_id'           => $quizId,
                 'name'              => $request->input('title'),
@@ -94,7 +87,6 @@ class quiz extends Controller
                 'updated_at'        => now(),
             ]);
 
-            // Insert into su_quiz_views
             DB::table('su_quiz_views')->insert([
                 'quiz_id'               => $quizId,
                 'before_grade'          => $request->has('before-grade') ? 1 : 0,
@@ -116,7 +108,6 @@ class quiz extends Controller
                 'updated_at'            => now(),
             ]);
 
-            // Attach Years / Groups
             $linkedYears = $request->input('linked-years', []);
             foreach ($linkedYears as $year) {
                 $courses = DB::table('su_users')
@@ -156,7 +147,7 @@ class quiz extends Controller
                 }
             }
 
-            // Store Uploaded Excel File
+            // Store uploaded file to public directory
             if ($request->hasFile('import-file')) {
                 $file = $request->file('import-file');
                 $filename = 'Questions-' . uniqid() . '.' . $file->getClientOriginalExtension();
@@ -165,5 +156,27 @@ class quiz extends Controller
         });
 
         return redirect('/teacher/tests');
+    }
+
+    public function destroy($id){
+        // Scan uploads directory and delete all files starting with "Questions-"
+        $folderPath = public_path('uploads/test_soraglar');
+
+        if (File::exists($folderPath)) {
+            $files = File::files($folderPath);
+            foreach ($files as $file) {
+                if (str_contains($file->getFilename(), 'Questions-')) {
+                    File::delete($file->getRealPath());
+                }
+            }
+        }
+
+        // Remove records from database tables
+        DB::table('su_quiz_attachments')->where('quiz_id', $id)->delete();
+        DB::table('su_quiz_settings')->where('quiz_id', $id)->delete();
+        DB::table('su_quiz_views')->where('quiz_id', $id)->delete();
+        DB::table('su_quizes')->where('id', $id)->delete();
+
+        return redirect('/teacher/tests')->with('success', 'Synag we degişli faýl üstünlikli pozuldy!');
     }
 }
