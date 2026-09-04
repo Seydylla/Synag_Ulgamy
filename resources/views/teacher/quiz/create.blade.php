@@ -38,7 +38,7 @@
                     <h2 class="text-xl font-semibold text-slate-100">Täze synag goşmak</h2>
                 </div>
 
-                <form id="form-quiz-settings" action="/student/tests" method="POST" class="p-5">
+                <form id="form-quiz-settings" action="/teacher/tests" enctype="multipart/form-data" method="POST" class="p-5">
                     @csrf
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="space-y-4">
