@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\quiz;
 use App\Models\lessons;
 
 Route::view('/', 'entrance');
@@ -11,8 +12,9 @@ Route::view('/student/tests', 'student.tests');
 Route::view('/student/settings', 'student.settings');
 
 Route::view('/teacher/dashboard', 'teacher.dashboard');
-Route::view('/teacher/tests', 'teacher.quiz.tests');
 Route::view('/teacher/online-test', 'teacher.online-test');
 Route::view('/teacher/settings', 'teacher.settings');
 
-Route::view('/teacher/add_quiz', 'teacher.quiz.add_quiz', ['lessons' => lessons::all()]);
+Route::get('/teacher/tests', [quiz::class, 'index']);
+
+// Route::view('/teacher/add_quiz', 'teacher.quiz.add_quiz', ['lessons' => lessons::all()]);

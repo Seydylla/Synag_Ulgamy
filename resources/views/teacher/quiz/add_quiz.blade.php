@@ -114,18 +114,18 @@
                             <div>
                                 <label class="block text-sm font-medium text-slate-300 mb-1">Baha haýsy aýa degişli</label>
                                 <select name="grade-month" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-teal-500">
-                                    <option value="1">Ýanwar</option>
-                                    <option value="2">Fewral</option>
-                                    <option value="3">Mart</option>
-                                    <option value="4">Aprel</option>
-                                    <option value="5">Maý</option>
-                                    <option value="6">Iýun</option>
-                                    <option value="7">Iýul</option>
-                                    <option value="8">Awgust</option>
-                                    <option value="9">Sentýabr</option>
-                                    <option value="10">Oktýabr</option>
-                                    <option value="11">Noýabr</option>
-                                    <option value="12">Dekabr</option>
+                                    <option value="Jan">Ýanwar</option>
+                                    <option value="Feb">Fewral</option>
+                                    <option value="Mar">Mart</option>
+                                    <option value="Apr">Aprel</option>
+                                    <option value="May">Maý</option>
+                                    <option value="Jun">Iýun</option>
+                                    <option value="Jul">Iýul</option>
+                                    <option value="Aug">Awgust</option>
+                                    <option value="Sep">Sentýabr</option>
+                                    <option value="Oct">Oktýabr</option>
+                                    <option value="Nov">Noýabr</option>
+                                    <option value="Dec">Dekabr</option>
                                 </select>
                             </div>
 
