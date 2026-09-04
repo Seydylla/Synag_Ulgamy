@@ -38,7 +38,8 @@
                     <h2 class="text-xl font-semibold text-slate-100">Täze synag goşmak</h2>
                 </div>
 
-                <form id="form-quiz-settings" action="#" method="POST" class="p-5">
+                <form id="form-quiz-settings" action="/student/tests" method="POST" class="p-5">
+                    @csrf
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="space-y-4">
                             <div>
@@ -46,9 +47,9 @@
                                     Dersiň ady <span class="text-rose-500">*</span>
                                 </label>
                                 <select name="lesson" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-teal-500">
-                                    <option value="1">Matematik derňew</option>
-                                    <option value="2">Sazlaşykly algebra</option>
-                                    <option value="3">Programmalaşdyrma</option>
+                                    @foreach($lessons as $lesson)
+                                        <option value="{{ $lesson->id }}">{{ $lesson->title }}</option>
+                                    @endforeach
                                 </select>
                                 <p class="text-xs text-slate-400 mt-1">Egerde okadýan dersiňiz bolmadyk ýagdaýynda Administratora ýüz tutyň!</p>
                             </div>
