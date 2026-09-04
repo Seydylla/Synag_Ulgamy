@@ -11,7 +11,19 @@ use Illuminate\Support\Facades\Hash;
 class quiz extends Controller
 {
     public function index() {
-        return view('teacher.quiz.index');
+        $quizzes = DB::table('su_quizes as q')
+            ->leftJoin('su_quiz_settings as s', 'q.id', '=', 's.quiz_id')
+            ->select([
+                'q.id',
+                'q.title',
+                DB::raw("'ADMIN USER' as teacher_name"),
+                DB::raw('COALESCE(s.duration, 1800) as duration'),
+                DB::raw('COALESCE(s.question_quantity, 0) as question_count')
+            ])
+            ->orderBy('q.id', 'desc')
+            ->get();
+
+        return view('teacher.quiz.index', compact('quizzes'));
     }
 
     public function create() {
