@@ -21,3 +21,4 @@ Route::post('/teacher/tests', [quiz::class, 'store']);
 Route::delete('/teacher/tests/{id}', [quiz::class, 'destroy']);
 Route::get('/teacher/tests/{id}/edit', [quiz::class, 'edit']);
 Route::patch('/teacher/tests/{id}', [quiz::class, 'update']);
+Route::get('/teacher/tests/{id}/result', [quiz::class, 'result']);

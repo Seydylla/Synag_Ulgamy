@@ -298,7 +298,7 @@ class quiz extends Controller
                 'updated_at'            => now(),
             ]);
 
-            // Handle Excel file update if a new file was uploaded  
+            // Handle Excel file update if a new file was uploaded
             if ($request->hasFile('import-file')) {
                 $folderPath = public_path('uploads/test_soraglar');
 
@@ -320,5 +320,47 @@ class quiz extends Controller
         });
 
         return redirect('/teacher/tests')->with('success', 'Synag üstünlikli täzelendi!');
+    }
+
+    public function result($id) {
+        // Fetch quiz and settings
+        $quiz_details = DB::table('su_quizes as q')
+            ->leftJoin('su_quiz_settings as s', 'q.id', '=', 's.quiz_id')
+            ->select('q.id', 'q.title', 's.duration', 's.question_quantity')
+            ->where('q.id', $id)
+            ->first();
+
+        if (!$quiz_details) {
+            return redirect('/teacher/tests')->with('error', 'Synag tapylmady.');
+        }
+
+        // Convert object to array if required by Blade view
+        $quiz_details = (array) $quiz_details;
+
+        // Fetch quiz attempt sessions (or empty array if not implemented yet)
+        $opened_sessions = DB::table('su_quiz_sessions as s')
+            ->join('su_users as u', 's.user_id', '=', 'u.id')
+            ->select('s.*', 'u.firstname', 'u.lastname', 'u.patrioticname', 'u.avatar')
+            ->where('s.quiz_id', $id)
+            ->get()
+            ->toArray();
+
+        $_QUIZ_ID = $id;
+        $_NUM_OF_ATTEMPTS = count($opened_sessions);
+        $check_in_progress = true;
+        $check_time_expired = true;
+        $check_finished = true;
+        $check_unsubmitted = true;
+
+        return view('teacher.quiz.results', compact(
+            'quiz_details',
+            'opened_sessions',
+            '_QUIZ_ID',
+            '_NUM_OF_ATTEMPTS',
+            'check_in_progress',
+            'check_time_expired',
+            'check_finished',
+            'check_unsubmitted'
+        ));
     }
 }
