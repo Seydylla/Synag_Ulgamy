@@ -25,7 +25,7 @@
 
         <main class="flex-1 w-full space-y-4 md:space-y-5">
 
-        
+
             <div class="flex justify-end w-full">
                 <a href="/teacher/add_quiz" class="px-5 py-2 border border-teal-500 text-teal-600 dark:text-teal-400 hover:bg-teal-500 hover:text-white rounded uppercase text-sm font-semibold transition-colors duration-200 tracking-wide">
                     Synag goş
@@ -49,7 +49,7 @@
 
                         <!-- Top Right Action Buttons -->
                         <div class="absolute top-4 right-4 flex gap-1.5 z-10">
-                            <a href="/teacher/edit_quiz/{{ $quiz->id }}" class="w-7 h-7 bg-slate-800 dark:bg-slate-700 text-white rounded-full flex items-center justify-center hover:opacity-80 transition-opacity shadow-sm" title="Edit Questions">
+                            <a href="/teacher/tests/{{ $quiz->id }} /edit" class="w-7 h-7 bg-slate-800 dark:bg-slate-700 text-white rounded-full flex items-center justify-center hover:opacity-80 transition-opacity shadow-sm" title="Edit Questions">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                             </a>
                             <a href="/teacher/result_test/{{ $quiz->id }}" class="w-7 h-7 bg-teal-500 text-white rounded-full flex items-center justify-center hover:opacity-80 transition-opacity shadow-sm" title="Results">

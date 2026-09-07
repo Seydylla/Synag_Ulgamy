@@ -179,4 +179,146 @@ class quiz extends Controller
 
         return redirect('/teacher/tests')->with('success', 'Synag we degişli faýl üstünlikli pozuldy!');
     }
+
+    public function edit($id) {
+        $quiz = DB::table('su_quizes as q')
+            ->leftJoin('su_quiz_settings as s', 'q.id', '=', 's.quiz_id')
+            ->leftJoin('su_quiz_views as v', 'q.id', '=', 'v.quiz_id')
+            ->select([
+                'q.id',
+                'q.title',
+                'q.description',
+                'q.science_id',
+                'q.lesson_id',
+                'q.month',
+                's.password',
+                's.availability',
+                's.start_time',
+                's.end_time',
+                's.duration',
+                's.question_quantity',
+                's.trying_quantity',
+                's.shuffle_questions',
+                's.shuffle_choices',
+                's.answer_type',
+                'v.before_grade',
+                'v.before_points',
+                'v.before_answer_true',
+                'v.before_true_answer',
+                'v.before_answer_history',
+                'v.after_grade',
+                'v.after_points',
+                'v.after_answer_true',
+                'v.after_true_answer',
+                'v.after_answer_history',
+                'v.later_grade',
+                'v.later_points',
+                'v.later_answer_true',
+                'v.later_true_answer',
+                'v.later_answer_history'
+            ])
+            ->where('q.id', $id)
+            ->first();
+
+        if (!$quiz) {
+            return redirect('/teacher/tests')->with('error', 'Synag tapylmady.');
+        }
+
+        $lessons = lessons::all();
+
+        return view('teacher.quiz.edit', compact('quiz', 'lessons'));
+    }
+
+    public function update(Request $request, $id) {
+
+        $request->validate([
+            'lesson' => 'required',
+            'title'  => 'required|string|max:255',
+            'import-file' => 'nullable|file|mimes:xlsx,xls|max:10240', // Validate optional file
+        ]);
+
+        DB::transaction(function () use ($request, $id) {
+            $startTime = ($request->has('test-start-time') && $request->input('test-start-time') === 'start-time-setted')
+                ? $request->input('start-date') . ' ' . $request->input('start-time') . ':00'
+                : '2000-01-01 00:00:00';
+
+            $endTime = ($request->has('test-end-time') && $request->input('test-end-time') === 'end-time-setted')
+                ? $request->input('end-date') . ' ' . $request->input('end-time') . ':00'
+                : '2200-01-01 00:00:00';
+
+            $duration = ($request->has('test-duration-switch') && $request->input('test-duration-switch') === 'test-duration-setted')
+                ? ((int) $request->input('duration-time') * 60)
+                : (999 * 60);
+
+            // Update main quiz details
+            DB::table('su_quizes')->where('id', $id)->update([
+                'title'      => $request->input('title'),
+                'lesson_id'  => $request->input('lesson'),
+                'month'      => $request->input('grade-month'),
+                'updated_at' => now(),
+            ]);
+
+            // Update settings
+            $settingsData = [
+                'name'              => $request->input('title'),
+                'availability'      => $request->input('availability', 1),
+                'start_time'        => $startTime,
+                'end_time'          => $endTime,
+                'duration'          => $duration,
+                'trying_quantity'   => $request->input('try-number', 1),
+                'shuffle_questions' => $request->input('question-shuffle', 1),
+                'shuffle_choices'   => $request->input('choices-shuffle', 1),
+                'answer_type'       => $request->input('answer-type', 1),
+                'updated_at'        => now(),
+            ];
+
+            if ($request->filled('password')) {
+                $settingsData['password'] = md5($request->input('password'));
+            }
+
+            DB::table('su_quiz_settings')->where('quiz_id', $id)->update($settingsData);
+
+            // Update view configurations
+            DB::table('su_quiz_views')->where('quiz_id', $id)->update([
+                'before_grade'          => $request->has('before-grade') ? 1 : 0,
+                'before_points'         => $request->has('before-points') ? 1 : 0,
+                'before_answer_true'    => $request->has('before-answer-true') ? 1 : 0,
+                'before_true_answer'    => $request->has('before-true-answer') ? 1 : 0,
+                'before_answer_history' => $request->has('before-answer-history') ? 1 : 0,
+                'after_grade'           => $request->has('after-grade') ? 1 : 0,
+                'after_points'          => $request->has('after-points') ? 1 : 0,
+                'after_answer_true'     => $request->has('after-answer-true') ? 1 : 0,
+                'after_true_answer'     => $request->has('after-true-answer') ? 1 : 0,
+                'after_answer_history'  => $request->has('after-answer-history') ? 1 : 0,
+                'later_grade'           => $request->has('later-grade') ? 1 : 0,
+                'later_points'          => $request->has('later-points') ? 1 : 0,
+                'later_answer_true'     => $request->has('later-answer-true') ? 1 : 0,
+                'later_true_answer'     => $request->has('later-true-answer') ? 1 : 0,
+                'later_answer_history'  => $request->has('later-answer-history') ? 1 : 0,
+                'updated_at'            => now(),
+            ]);
+
+            // Handle Excel file update if a new file was uploaded  
+            if ($request->hasFile('import-file')) {
+                $folderPath = public_path('uploads/test_soraglar');
+
+                if (File::exists($folderPath)) {
+                    // Delete previous "Questions-" files from the folder
+                    $existingFiles = File::files($folderPath);
+                    foreach ($existingFiles as $oldFile) {
+                        if (str_contains($oldFile->getFilename(), 'Questions-')) {
+                            File::delete($oldFile->getRealPath());
+                        }
+                    }
+
+                    // Save the new uploaded file
+                    $file = $request->file('import-file');
+                    $filename = 'Questions-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->move($folderPath, $filename);
+                }
+            }
+        });
+
+        return redirect('/teacher/tests')->with('success', 'Synag üstünlikli täzelendi!');
+    }
 }

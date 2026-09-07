@@ -19,3 +19,5 @@ Route::get('/teacher/tests', [quiz::class, 'index']);
 Route::get('/teacher/add_quiz', [quiz::class, 'create']);
 Route::post('/teacher/tests', [quiz::class, 'store']);
 Route::delete('/teacher/tests/{id}', [quiz::class, 'destroy']);
+Route::get('/teacher/tests/{id}/edit', [quiz::class, 'edit']);
+Route::patch('/teacher/tests/{id}', [quiz::class, 'update']);
