@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\quiz;
+use App\Http\Controllers\DashboardController;
 
 Route::view('/', 'entrance');
 
@@ -10,7 +11,7 @@ Route::view('/student/online-test', 'student.online-test');
 Route::view('/student/tests', 'student.tests');
 Route::view('/student/settings', 'student.settings');
 
-Route::view('/teacher/dashboard', 'teacher.dashboard');
+Route::get('/teacher/dashboard', [DashboardController::class, 'index'])->name('teacher.dashboard');
 Route::view('/teacher/online-test', 'teacher.online-test');
 Route::view('/teacher/settings', 'teacher.settings');
 
