@@ -363,4 +363,109 @@ class quiz extends Controller
             'check_unsubmitted'
         ));
     }
+
+    public function saveAllResults($id) {
+        
+        $quiz_details = DB::table('su_quizes')->where('id', $id)->first();
+
+        if (!$quiz_details) {
+            return redirect('/teacher/tests')->with('error', 'Synag tapylmady.');
+        }
+
+        $quiz_details = (array) $quiz_details;
+
+        // Load sessions
+        $quiz_sessions = DB::table('su_quiz_sessions as s')
+            ->join('su_users as u', 's.user_id', '=', 'u.id')
+            ->select('s.id', 's.quiz_id', 's.user_id', 'u.firstname', 'u.lastname', 'u.patrioticname', 's.status', 's.started_at', 's.finished_at')
+            ->where('s.quiz_id', $id)
+            ->get();
+
+        // Total correct variants across the quiz
+        $number_of_correct_variants = DB::table('su_question_variants')
+            ->where('correctness', 1)
+            ->whereIn('question_id', function ($query) use ($id) {
+                $query->select('question_id')->from('su_quiz_questions')->where('quiz_id', $id);
+            })->count();
+
+        // Total number of questions
+        $number_of_questions = DB::table('su_quiz_questions')->where('quiz_id', $id)->count();
+
+        $five_counter = 0;
+        $four_counter = 0;
+        $three_counter = 0;
+        $two_counter = 0;
+
+        $processed_sessions = [];
+
+        foreach ($quiz_sessions as $session) {
+            $ssid = $session->id;
+            $uid = $session->user_id;
+
+            // Correct submitted answers
+            $correct_count = DB::table('su_submitted_answers')
+                ->where('session_id', $ssid)
+                ->where('quiz_id', $id)
+                ->where('user_id', $uid)
+                ->whereIn('variant_id', function ($query) {
+                    $query->select('id')->from('su_question_variants')->where('correctness', 1);
+                })->count();
+
+            // Incorrect submitted answers
+            $incorrect_count = DB::table('su_submitted_answers')
+                ->where('session_id', $ssid)
+                ->where('quiz_id', $id)
+                ->where('user_id', $uid)
+                ->whereIn('variant_id', function ($query) {
+                    $query->select('id')->from('su_question_variants')->where('correctness', 0);
+                })->count();
+
+            $unanswered_count = max(0, $number_of_questions - $correct_count - $incorrect_count);
+
+            $final_percentage = ($number_of_correct_variants > 0) ? ($correct_count * 100) / $number_of_correct_variants : 0;
+
+            if ($final_percentage < 50) {
+                $final_grade = '2 (iki)';
+                $two_counter++;
+            } else if ($final_percentage < 70) {
+                $final_grade = '3 (üç)';
+                $three_counter++;
+            } else if ($final_percentage < 85) {
+                $final_grade = '4 (dört)';
+                $four_counter++;
+            } else {
+                $final_grade = '5 (bäş)';
+                $five_counter++;
+            }
+
+            $processed_sessions[] = [
+                'id' => $session->id,
+                'firstname' => $session->firstname,
+                'lastname' => $session->lastname,
+                'started_at' => $session->started_at,
+                'finished_at' => $session->finished_at,
+                'correct_count' => $correct_count,
+                'incorrect_count' => $incorrect_count,
+                'unanswered_count' => $unanswered_count,
+                'final_grade' => $final_grade,
+            ];
+        }
+
+        $total_sessions = count($processed_sessions);
+        $quiz_avg = ($total_sessions > 0)
+            ? (5 * $five_counter + 4 * $four_counter + 3 * $three_counter + 2 * $two_counter) / $total_sessions
+            : 0;
+
+        return view('teacher.quiz.save_all_results', compact(
+            'quiz_details',
+            'number_of_questions',
+            'five_counter',
+            'four_counter',
+            'three_counter',
+            'two_counter',
+            'total_sessions',
+            'quiz_avg',
+            'processed_sessions'
+        ));
+    }
 }

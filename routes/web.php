@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\quiz;
-use App\Models\lessons;
 
 Route::view('/', 'entrance');
 
@@ -22,3 +21,4 @@ Route::delete('/teacher/tests/{id}', [quiz::class, 'destroy']);
 Route::get('/teacher/tests/{id}/edit', [quiz::class, 'edit']);
 Route::patch('/teacher/tests/{id}', [quiz::class, 'update']);
 Route::get('/teacher/tests/{id}/result', [quiz::class, 'result']);
+Route::get('/teacher/tests/{id}/save-pdf', [quiz::class, 'saveAllResults'])->name('teacher.tests.save_pdf');
